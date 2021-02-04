@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-import deconv
+import from deconv import Delinear
 
 def weights_init(m):
     classname = m.__class__.__name__
