@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import deconv
 
 def weights_init(m):
     classname = m.__class__.__name__
@@ -30,15 +31,15 @@ class encoder_template(nn.Module):
         modules = []
         for i in range(len(self.layer_sizes)-2):
 
-            modules.append(nn.Linear(self.layer_sizes[i],self.layer_sizes[i+1]))
+            modules.append(Delinear(self.layer_sizes[i],self.layer_sizes[i+1]))
             modules.append(nn.ReLU())
 
         self.feature_encoder = nn.Sequential(*modules)
 
-        self._mu = nn.Linear(in_features=self.layer_sizes[-2], out_features=latent_size)
+        self._mu = Delinear(in_features=self.layer_sizes[-2], out_features=latent_size)
 
 
-        self._logvar = nn.Linear(in_features=self.layer_sizes[-2], out_features=latent_size)
+        self._logvar = Delinear(in_features=self.layer_sizes[-2], out_features=latent_size)
 
 
         self.apply(weights_init)
@@ -64,7 +65,7 @@ class decoder_template(nn.Module):
 
         self.layer_sizes = [input_dim, hidden_size_rule[-1] , output_dim]
 
-        self.feature_decoder = nn.Sequential(nn.Linear(input_dim,self.layer_sizes[1]),nn.ReLU(),nn.Linear(self.layer_sizes[1],output_dim))
+        self.feature_decoder = nn.Sequential(Delinear(input_dim,self.layer_sizes[1]),nn.ReLU(),Delinear(self.layer_sizes[1],output_dim))
 
         self.apply(weights_init)
 
