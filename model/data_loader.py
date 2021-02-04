@@ -30,7 +30,7 @@ class DATA_LOADER(object):
 
         print('Project Directory:')
         print(project_directory)
-        data_path = '/storage/users/jgecvision/Swalpa/zeroshot/xlsa17' + '/data'
+        data_path = '/content/drive/MyDrive/xlsa17' + '/data'
         print('Data Path')
         print(data_path)
         sys.path.append(data_path)
